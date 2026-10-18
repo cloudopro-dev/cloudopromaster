@@ -1,0 +1,6 @@
+{
+  "name": "CLOUDO PRO MASTER - Cloud VPS & Web Hosting Management",
+  "description": "Enterprise Cloud Hosting & VPS Server Management Panel for cloudo.biz.id with real-time telemetry, DNS zone editor, database manager, web terminal, and SSL management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
