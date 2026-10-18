@@ -15,6 +15,7 @@ import {
   Cpu,
   HardDrive,
   Zap,
+  Cloud,
 } from 'lucide-react';
 import { VpsInstance } from '../types/cloud';
 
@@ -67,6 +68,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Radio,
       badge: 'Anycast',
       badgeColor: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+      category: 'Infrastruktur',
+    },
+    {
+      id: 'cloudflare',
+      label: 'Cloudflare Edge Hub',
+      icon: Cloud,
+      badge: 'Connected',
+      badgeColor: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
       category: 'Infrastruktur',
     },
     {

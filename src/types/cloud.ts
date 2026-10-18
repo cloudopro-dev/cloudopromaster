@@ -187,3 +187,32 @@ export interface Invoice {
   status: 'paid' | 'pending' | 'unpaid';
   paymentMethod: string;
 }
+
+export interface CloudflareConfig {
+  domain: string;
+  zoneId: string;
+  accountId: string;
+  apiToken: string;
+  email: string;
+  status: 'active' | 'pending' | 'disconnected';
+  nameservers: string[];
+  sslMode: 'flexible' | 'full' | 'strict';
+  securityLevel: 'essentially_off' | 'low' | 'medium' | 'high' | 'under_attack';
+  alwaysUseHttps: boolean;
+  http3: boolean;
+  brotli: boolean;
+  rocketLoader: boolean;
+  earlyHints: boolean;
+  autoMinify: {
+    html: boolean;
+    css: boolean;
+    js: boolean;
+  };
+  botFightMode: boolean;
+  turnstileEnabled: boolean;
+  cacheHitRatio: number;
+  bandwidthSavedGb: number;
+  threatsBlocked: number;
+  lastPurgedAt: string | null;
+}
+

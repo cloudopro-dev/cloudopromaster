@@ -22,6 +22,7 @@ import { LiveDomainPreviewModal } from './components/LiveDomainPreviewModal';
 import { DeployModal } from './components/DeployModal';
 import { LandingPageView } from './components/LandingPageView';
 import { LoginView } from './components/LoginView';
+import { CloudflareManagerView } from './components/CloudflareManagerView';
 
 import {
   VpsInstance,
@@ -480,6 +481,14 @@ export default function App() {
               onAddRecord={handleAddDnsRecord}
               onDeleteRecord={handleDeleteDnsRecord}
               onToggleProxy={handleToggleProxy}
+            />
+          )}
+
+          {activeTab === 'cloudflare' && (
+            <CloudflareManagerView
+              dnsRecords={dnsRecords}
+              onNavigateToDns={() => setActiveTab('dns')}
+              onOpenLivePreview={() => setShowLivePreview(true)}
             />
           )}
 
