@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import {
   Terminal,
-  ShieldCheck,
   Globe,
   Bell,
   Plus,
   Search,
   ExternalLink,
   ChevronDown,
-  Activity,
   CheckCircle2,
-  RefreshCw,
   Home,
   LogOut,
-  User,
+  RefreshCw,
+  Coins,
 } from 'lucide-react';
 import { VpsInstance } from '../types/cloud';
 import { Logo } from './Logo';
@@ -59,59 +57,53 @@ export const Header: React.FC<HeaderProps> = ({
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-    }, 800);
+    }, 600);
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl">
-      <div className="flex h-16 items-center justify-between px-4 sm:px-6 gap-3">
-        {/* Brand with New Logo */}
-        <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
+      <div className="flex h-15 items-center justify-between px-4 sm:px-6 gap-4">
+        {/* Left: Clean Brand Logo & Minimalist Live Domain Pill */}
+        <div className="flex items-center gap-3 shrink-0">
           <div
             onClick={() => setActiveTab('dashboard')}
-            className="cursor-pointer group"
+            className="cursor-pointer transition hover:opacity-90"
+            title="Ke Dashboard"
           >
-            <Logo size="md" />
+            <Logo size="sm" showBadge={false} />
           </div>
 
-          {/* Primary Domain cloudo.biz.id Live Pill */}
-          <div className="hidden md:flex items-center gap-2 rounded-full bg-slate-900/90 border border-cyan-500/30 px-3 py-1 text-xs">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <Globe className="h-3.5 w-3.5 text-cyan-400" />
-            <span className="font-medium text-slate-200">Domain:</span>
-            <span className="font-mono font-semibold text-cyan-300">cloudo.biz.id</span>
-            <span className="rounded bg-emerald-500/15 text-emerald-400 px-1.5 py-0.2 text-[10px] font-mono">
-              HTTPS
-            </span>
+          <div className="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-800/80 text-xs">
             <button
               onClick={onOpenLivePreview}
-              title="Inspect Live cloudo.biz.id website & SSL status"
-              className="ml-1 flex items-center gap-1 text-[11px] text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer font-medium"
+              title="Periksa status live cloudo.biz.id"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-cyan-500/30 text-[11px] font-mono text-cyan-300 transition cursor-pointer group"
             >
-              <span>Live Test</span>
-              <ExternalLink className="h-3 w-3" />
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              </span>
+              <span>cloudo.biz.id</span>
+              <ExternalLink className="h-2.5 w-2.5 opacity-60 group-hover:opacity-100 transition" />
             </button>
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="hidden lg:flex flex-1 max-w-md mx-4">
+        {/* Center: Streamlined Search Bar */}
+        <div className="flex-1 max-w-sm hidden md:block">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-500" />
             <input
               type="text"
-              placeholder="Search server, domain, IP (e.g. cloudo.biz.id, Nginx, MySQL)..."
+              placeholder="Cari server, domain, IP..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-lg bg-slate-900/80 border border-slate-800 pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 transition-all font-mono"
+              className="w-full rounded-xl bg-slate-900/60 border border-slate-800/80 pl-8 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-900 font-mono transition"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-2.5 text-xs text-slate-400 hover:text-slate-200"
+                className="absolute right-2.5 top-2 text-xs text-slate-500 hover:text-slate-300"
               >
                 ✕
               </button>
@@ -119,192 +111,164 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right Action Tools */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick Refresh Status */}
-          <button
-            onClick={handleRefresh}
-            title="Refresh Server Telemetry"
-            className="flex items-center justify-center h-8 w-8 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-slate-700 transition"
-          >
-            <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-cyan-400' : ''}`} />
-          </button>
-
-          {/* Currency Toggle */}
-          <div className="flex items-center rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs">
-            <button
-              onClick={() => setCurrency('IDR')}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currency === 'IDR'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              IDR (Rp)
-            </button>
-            <button
-              onClick={() => setCurrency('USD')}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currency === 'USD'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              USD ($)
-            </button>
-          </div>
-
-          {/* Web SSH Terminal Quick Button */}
+        {/* Right: Clean, Uncluttered Action Hub */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Quick Terminal Icon Button */}
           <button
             onClick={onToggleTerminal}
-            className="flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800/90 border border-slate-800 px-2.5 py-1.5 text-xs font-mono text-slate-200 transition group"
-            title="Open Web SSH Terminal"
+            className="flex items-center justify-center h-8 w-8 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-emerald-400 hover:text-emerald-300 transition"
+            title="Buka Web SSH Console"
           >
-            <Terminal className="h-3.5 w-3.5 text-emerald-400 group-hover:text-emerald-300" />
-            <span className="hidden sm:inline">SSH Console</span>
+            <Terminal className="h-4 w-4" />
           </button>
 
-          {/* Deploy New Button */}
+          {/* Deploy Action Button */}
           <button
             onClick={onOpenDeployModal}
-            className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium px-3 py-1.5 text-xs shadow-md shadow-cyan-600/25 transition active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold px-3 py-1.5 text-xs shadow-md shadow-cyan-600/20 transition active:scale-95 cursor-pointer"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">New Service</span>
+            <span className="hidden sm:inline">Deploy</span>
           </button>
 
-          {/* Notifications Toggle */}
+          {/* Notifications Bell */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition"
+              className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white transition"
+              title="Notifikasi Sistem"
             >
               <Bell className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-500 text-[9px] font-bold text-slate-950">
-                3
-              </span>
+              <span className="absolute 1 top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl p-3 z-50 animate-in fade-in backdrop-blur-xl">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                   <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    System Alerts & Telemetry
+                    Sistem Alerts
                   </span>
-                  <span className="text-[10px] text-cyan-400 font-mono">Live Stream</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">Live</span>
                 </div>
-                <div className="mt-2 space-y-2 max-h-60 overflow-y-auto">
-                  <div className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-xs">
-                    <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                      <CheckCircle2 className="h-3 w-3" />
-                      <span>DDoS Mitigated for cloudo.biz.id</span>
-                    </div>
+                <div className="mt-2 space-y-2 max-h-56 overflow-y-auto text-xs">
+                  <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/40">
+                    <p className="font-semibold text-emerald-400">DDoS Shield Aktif</p>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      Cloudflare edge absorbed 4.2 Gbps UDP flood automatically.
+                      4.2 Gbps UDP flood disaring di edge cloudo.biz.id.
                     </p>
-                    <span className="text-[9px] text-slate-500 font-mono">10 min ago</span>
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-xs">
-                    <div className="flex items-center gap-1.5 text-cyan-400 font-medium">
-                      <Activity className="h-3 w-3" />
-                      <span>Let's Encrypt Auto-Renewal</span>
-                    </div>
+                  <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/40">
+                    <p className="font-semibold text-cyan-400">SSL Auto-Renewed</p>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      Certificate for cloudo.biz.id verified and active.
+                      Sertifikat Let's Encrypt ECC 384-bit valid.
                     </p>
-                    <span className="text-[9px] text-slate-500 font-mono">35 min ago</span>
-                  </div>
-                  <div className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-xs">
-                    <div className="flex items-center gap-1.5 text-amber-400 font-medium">
-                      <ShieldCheck className="h-3 w-3" />
-                      <span>Fail2ban Banned Suspicious IP</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 mt-0.5">
-                      IP 185.220.101.4 blocked on port 2222.
-                    </p>
-                    <span className="text-[9px] text-slate-500 font-mono">1 hr ago</span>
                   </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Admin Profile Dropdown */}
+          {/* Single Clean Profile Menu (Houses Currency, Landing, Settings, Logout) */}
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 rounded-lg bg-slate-900 border border-slate-800 pl-2 pr-2.5 py-1 hover:border-slate-700 transition cursor-pointer"
+              className="flex items-center gap-1.5 rounded-xl bg-slate-900/90 border border-slate-800 p-1 pl-1.5 pr-2 hover:border-slate-700 transition cursor-pointer"
             >
-              <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-xs font-bold text-white uppercase shadow-sm">
+              <div className="h-6 w-6 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
                 CP
-              </div>
-              <div className="hidden xl:block text-left">
-                <p className="text-xs font-semibold text-slate-200 leading-tight">Admin Root</p>
-                <p className="text-[10px] text-slate-400 leading-none">{currentUserRole || 'Super Administrator'}</p>
               </div>
               <ChevronDown className="h-3 w-3 text-slate-400" />
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl p-2 z-50 text-xs animate-in fade-in">
-                <div className="px-3 py-2 border-b border-slate-800 mb-1">
-                  <p className="font-semibold text-white">{currentUserRole || 'Super Administrator'}</p>
-                  <p className="text-[11px] text-slate-400 font-mono truncate">admin@cloudo.biz.id</p>
-                  <div className="mt-1 flex items-center gap-1 text-[10px] text-emerald-400">
+              <div className="absolute right-0 mt-2 w-60 rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl p-2.5 z-50 text-xs backdrop-blur-xl animate-in fade-in space-y-2">
+                {/* Account info */}
+                <div className="px-2.5 py-1.5 border-b border-slate-800">
+                  <p className="font-bold text-white">{currentUserRole || 'Super Administrator'}</p>
+                  <p className="text-[11px] text-cyan-400 font-mono">admin@cloudo.biz.id</p>
+                  <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-                    <span>{runningServers} / {servers.length} VPS Nodes Running</span>
+                    <span>{runningServers} / {servers.length} VPS Node Online</span>
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    onGoToLanding();
-                    setShowProfileMenu(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 text-cyan-300 font-semibold transition flex items-center gap-2 cursor-pointer"
-                >
-                  <Home className="h-3.5 w-3.5 text-cyan-400" />
-                  <span>Halaman Depan (Landing)</span>
-                </button>
+                {/* Currency switch item inside menu */}
+                <div className="px-2.5 py-1 flex items-center justify-between text-slate-300">
+                  <span className="text-[11px] flex items-center gap-1.5 text-slate-400">
+                    <Coins className="h-3.5 w-3.5 text-amber-400" />
+                    Mata Uang:
+                  </span>
+                  <div className="flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 text-[10px]">
+                    <button
+                      onClick={() => setCurrency('IDR')}
+                      className={`px-2 py-0.5 rounded font-bold transition ${
+                        currency === 'IDR'
+                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                          : 'text-slate-500 hover:text-slate-300'
+                      }`}
+                    >
+                      IDR
+                    </button>
+                    <button
+                      onClick={() => setCurrency('USD')}
+                      className={`px-2 py-0.5 rounded font-bold transition ${
+                        currency === 'USD'
+                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                          : 'text-slate-500 hover:text-slate-300'
+                      }`}
+                    >
+                      USD
+                    </button>
+                  </div>
+                </div>
 
-                <button
-                  onClick={() => {
-                    setActiveTab('security');
-                    setShowProfileMenu(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-                >
-                  SSH Keys & 2FA Security
-                </button>
+                {/* Menu Links */}
+                <div className="space-y-0.5 pt-1 border-t border-slate-800">
+                  <button
+                    onClick={() => {
+                      onGoToLanding();
+                      setShowProfileMenu(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-slate-200 hover:text-cyan-300 transition flex items-center gap-2 cursor-pointer"
+                  >
+                    <Home className="h-3.5 w-3.5 text-cyan-400" />
+                    <span>Halaman Depan (Landing)</span>
+                  </button>
 
-                <button
-                  onClick={() => {
-                    setActiveTab('billing');
-                    setShowProfileMenu(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-                >
-                  Cloud Billing & Invoices
-                </button>
+                  <button
+                    onClick={() => {
+                      handleRefresh();
+                      setShowProfileMenu(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-slate-200 transition flex items-center gap-2 cursor-pointer"
+                  >
+                    <RefreshCw className="h-3.5 w-3.5 text-slate-400" />
+                    <span>Segarkan Telemetri</span>
+                  </button>
 
-                <button
-                  onClick={() => {
-                    onOpenLivePreview();
-                    setShowProfileMenu(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 transition flex items-center justify-between cursor-pointer"
-                >
-                  <span>Test cloudo.biz.id</span>
-                  <ExternalLink className="h-3 w-3" />
-                </button>
+                  <button
+                    onClick={() => {
+                      onOpenLivePreview();
+                      setShowProfileMenu(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-slate-200 transition flex items-center justify-between cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Globe className="h-3.5 w-3.5 text-slate-400" />
+                      <span>Tes cloudo.biz.id</span>
+                    </span>
+                    <ExternalLink className="h-3 w-3 text-slate-500" />
+                  </button>
+                </div>
 
-                <div className="pt-1 mt-1 border-t border-slate-800">
+                {/* Logout */}
+                <div className="pt-1 border-t border-slate-800">
                   <button
                     onClick={() => {
                       onLogout();
                       setShowProfileMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-rose-950/40 text-rose-400 font-medium transition flex items-center gap-2 cursor-pointer"
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-rose-950/40 text-rose-400 transition flex items-center gap-2 cursor-pointer font-medium"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     <span>Keluar (Logout)</span>

@@ -124,11 +124,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
           </div>
 
           {/* Navigation Links (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
-            <a href="#vps" className="hover:text-cyan-400 transition">Paket VPS & Hosting</a>
+          <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-300">
+            <a href="#vps" className="hover:text-cyan-400 transition">Paket VPS</a>
             <a href="#fitur" className="hover:text-cyan-400 transition">Fitur Panel</a>
-            <a href="#datacenter" className="hover:text-cyan-400 transition">Datacenter & Latensi</a>
-            <a href="#domain" className="hover:text-cyan-400 transition">Cek Domain .biz.id</a>
+            <a href="#datacenter" className="hover:text-cyan-400 transition">Datacenter</a>
+            <a href="#domain" className="hover:text-cyan-400 transition">Cek Domain</a>
             <a href="#faq" className="hover:text-cyan-400 transition">FAQ</a>
           </nav>
 
